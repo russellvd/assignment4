@@ -1,0 +1,37 @@
+group scene scene
+
+
+
+# Load the floor / ground
+scale s-ground s-ground 1.5 1.5 1.5
+add-child s-ground scene
+import ground-graph scenegraphmodels/base.txt
+add-child ground-graph s-ground
+
+
+# Load the tower 
+translate t-tower t-tower -15 50 -30
+add-child t-tower scene
+
+scale s-tower s-tower .5 .5 .5 
+add-child s-tower t-tower
+
+import tower-graph scenegraphmodels/tower.txt
+add-child tower-graph s-tower
+
+# Load the Two People 
+translate t-humans t-humans -20 0 40  
+add-child t-humans scene
+import humans-graph scenegraphmodels/two-humans-commands.txt
+add-child humans-graph t-humans
+
+# Load the Drone
+translate t-drone t-drone 60 140 30
+scale s-drone s-drone .5 .5 .5 
+add-child t-drone scene
+import drone-graph scenegraphmodels/drone.txt
+add-child drone-graph s-drone
+add-child s-drone t-drone
+
+
+assign-root scene

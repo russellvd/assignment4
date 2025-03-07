@@ -1,0 +1,176 @@
+# This scenegraph represents a tower with a turret.
+
+# Instances
+instance box models/box.obj
+instance cone models/cone.obj
+instance cylinder models/cylinder.obj
+
+#-----------------------------------------------------------------------------------------------------#
+# Materials
+
+material gray
+emission 0 0 0
+ambient 0.2 0.2 0.2
+diffuse 0.2 0.2 0.2
+specular 0.2 0.2 0.2
+shininess 0
+end-material
+
+material dark-gray
+emission 0 0 0
+ambient 0.1 0.1 0.1
+diffuse 0.1 0.1 0.1
+specular 0.1 0.1 0.1
+shininess 0
+end-material
+
+material white
+emission 0 0 0
+ambient 1 1 1
+diffuse 1 1 1
+specular 1 1 1
+shininess 0
+end-material
+
+#-----------------------------------------------------------------------------------------------------#
+# Root
+group root root
+assign-root root
+
+# Tower Body 
+scale scale-tower scale-tower 50 175 50 # scale for the tower
+leaf tower tower instanceof box 
+assign-material tower gray
+add-child tower scale-tower
+add-child scale-tower root
+
+
+# Tower Roof Base 
+translate translate-turret translate-turret 0 100 0 # translation for the turret
+scale scale-turret-base scale-turret-base 70 12 70 # scale for tower base
+leaf turret turret instanceof box
+assign-material turret dark-gray
+add-child turret scale-turret-base
+add-child scale-turret-base translate-turret 
+add-child translate-turret root
+
+# Tower Roof Cone 
+translate translate-turret-top translate-turret-top 0 105 0 # translation for turret top 
+scale scale-turret-top scale-turret-top 35 60 35 # scale for turret top 
+leaf turret-top turret-top instanceof cone 
+assign-material turret-top dark-gray
+add-child turret-top scale-turret-top
+add-child scale-turret-top translate-turret-top
+add-child translate-turret-top root
+
+# Left Tower Touret
+translate translate-left-touret translate-left-touret -30 105 30
+scale scale-left-touret scale-left-touret 7 50 7 # scale for touret
+leaf left-touret left-touret instanceof cylinder 
+assign-material left-touret gray
+add-child left-touret scale-left-touret
+add-child scale-left-touret translate-left-touret
+add-child translate-left-touret root
+
+# Middle Tower Touret
+translate translate-middle-touret translate-middle-touret 25 105 25
+scale scale-middle-touret scale-middle-touret 7 50 7 # scale for touret
+leaf middle-touret middle-touret instanceof cylinder 
+assign-material middle-touret gray
+add-child middle-touret scale-middle-touret
+add-child scale-middle-touret translate-middle-touret
+add-child translate-middle-touret root
+
+# Back Middle Tower Touret
+translate translate-back-middle-touret translate-back-middle-touret -25 105 -25
+scale scale-back-middle-touret scale-back-middle-touret 7 50 7 # scale for touret 
+leaf back-middle-touret back-middle-touret instanceof cylinder 
+assign-material back-middle-touret gray
+add-child back-middle-touret scale-back-middle-touret
+add-child scale-back-middle-touret translate-back-middle-touret
+add-child translate-back-middle-touret root
+
+# Right Tower Touret 
+translate translate-right-touret translate-right-touret 30 105 -30
+scale scale-right-touret scale-right-touret 7 50 7 # scale for touret
+leaf right-touret right-touret instanceof cylinder 
+assign-material right-touret gray
+add-child right-touret scale-right-touret
+add-child scale-right-touret translate-right-touret
+add-child translate-right-touret root
+
+# Left Cylinder Connector
+translate translate-left-connector translate-left-connector -33 -100 33
+scale scale-left-connector scale-left-connector 3 200 3 # scale for touret
+leaf left-connector left-connector instanceof cylinder 
+assign-material left-connector dark-gray
+add-child left-connector scale-left-connector
+add-child scale-left-connector translate-left-connector
+add-child translate-left-connector root
+
+
+# Middle Cylinder Connector
+translate translate-middle-connector translate-middle-connector 33 -100 33
+scale scale-middle-connector scale-middle-connector 3 200 3 # scale for touret
+leaf middle-connector middle-connector instanceof cylinder 
+assign-material middle-connector dark-gray
+add-child middle-connector scale-middle-connector
+add-child scale-middle-connector translate-middle-connector
+add-child translate-middle-connector root
+
+# Back-Middle Cylinder Connector
+translate translate-back-middle-connector translate-back-middle-connector -33 -100 -33
+scale scale-back-middle-connector scale-back-middle-connector 3 200 3 # scale for touret
+leaf back-middle-connector back-middle-connector instanceof cylinder 
+assign-material back-middle-connector dark-gray
+add-child back-middle-connector scale-back-middle-connector
+add-child scale-back-middle-connector translate-back-middle-connector
+add-child translate-back-middle-connector root
+
+
+# Right Cylinder Connector
+translate translate-right-connector translate-right-connector 33 -100 -33
+scale scale-right-connector scale-right-connector 3 200 3 # scale for touret
+leaf right-connector right-connector instanceof cylinder 
+assign-material right-connector dark-gray
+add-child right-connector scale-right-connector
+add-child scale-right-connector translate-right-connector
+add-child translate-right-connector root
+
+# Scenegraph hierarchy
+#- root
+#  - scale-tower
+#    - tower
+#  - translate-turret
+#    - scale-turret-base
+#      - turret
+#  - translate-turret-top
+#    - scale-turret-top
+#      - turret-top
+#  - translate-left-touret
+#    - scale-left-touret
+#      - left-touret
+#  - translate-middle-touret
+#    - scale-middle-touret
+#      - middle-touret
+#  - translate-back-middle-touret
+#    - scale-back-middle-touret
+#      - back-middle-touret
+#  - translate-right-touret
+#    - scale-right-touret
+#      - right-touret
+#  - translate-left-connector
+#    - scale-left-connector
+#      - left-connector
+#  - translate-middle-connector
+#    - scale-middle-connector
+#      - middle-connector
+#  - translate-back-middle-connector
+#    - scale-back-middle-connector
+#      - back-middle-connector
+#  - translate-right-connector
+#    - scale-right-connector
+#      - right-connector
+
+
+

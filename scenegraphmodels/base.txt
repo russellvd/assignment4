@@ -1,0 +1,49 @@
+# This scenegraph represents the ground.
+
+# Instances
+instance box models/box.obj
+
+#-----------------------------------------------------------------------------------------------------#
+# Materials
+
+material mat-brown-ground
+emission 0 0 0
+ambient 0.6 0.4 0.2
+diffuse 0.6 0.4 0.2
+specular 0.6 0.4 0.2
+shininess 0
+end-material
+
+material mat-green-grass
+emission 0 0 0
+ambient 0 0.3 0
+diffuse 0 0.3 0
+specular 0 0.3 0
+shininess 0
+end-material
+
+#-----------------------------------------------------------------------------------------------------#
+# Root
+group base base
+assign-root base
+
+scale scale-ground scale-ground 160 10 160 # scale for the ground layer 
+leaf ground ground instanceof box 
+assign-material ground mat-brown-ground
+
+scale scale-grass scale-grass 140 12 140 # scale for the smaller grass layer
+leaf grass grass instanceof box
+assign-material grass mat-green-grass
+
+# Assignments
+add-child grass scale-grass
+add-child scale-grass base
+add-child ground scale-ground
+add-child scale-ground base
+
+# Scenegraph hierarchy
+#- base
+#  - scale-grass
+#    - grass
+#  - scale-ground
+#    - ground
