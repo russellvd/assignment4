@@ -29,7 +29,7 @@ add-child humans-graph t-humans
 translate t-drone t-drone 60 140 30
 scale s-drone s-drone .5 .5 .5 
 add-child t-drone scene
-import drone-graph scenegraphmodels/drone.txt
+import drone-graph scenegraphmodels/drone-animations.txt
 add-child drone-graph s-drone
 add-child s-drone t-drone
 

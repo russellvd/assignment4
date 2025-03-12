@@ -26,6 +26,7 @@ private:
 
     void initScenegraph(const std::string& filePath);
     bool mouseReleased = true;
+    bool rotateFaster = false;
 };
 
 #endif

@@ -41,6 +41,19 @@ namespace sgraph {
             return glm::vec3(tx,ty,tz);
         }
 
+        /**
+         * Method to update the translation values.
+         * Updates tx, ty, tz and recalculates the transformation matrix.
+         */
+        void updateTranslation(const glm::vec3 &newTranslation) {
+            this->tx = newTranslation.x;
+            this->ty = newTranslation.y;
+            this->tz = newTranslation.z;
+
+            glm::mat4 transform = glm::translate(glm::mat4(1.0), glm::vec3(tx, ty, tz));
+            setTransform(transform); 
+        }
+
     };
 }
 

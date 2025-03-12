@@ -1,0 +1,14 @@
+group animation animation
+
+
+# translate animation
+translate translate-drone translate-drone 0 0 0
+add-child translate-drone animation
+
+# rotation animation
+rotate rotate-drone rotate-drone 0 0 0 1 
+import drone-animation scenegraphmodels/drone.txt
+add-child drone-animation rotate-drone
+add-child rotate-drone translate-drone
+
+assign-root animation

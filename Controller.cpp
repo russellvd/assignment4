@@ -12,16 +12,18 @@ using namespace std;
 #include "sgraph/ScenegraphExporter.h"
 #include "sgraph/ScenegraphImporter.h"
 
-Controller::Controller(Model& m, View& v, const std::string& filePath) {
+Controller::Controller(Model &m, View &v, const std::string &filePath)
+{
     model = m;
     view = v;
-
     initScenegraph(filePath);
 }
 
-void Controller::initScenegraph(const std::string& sceneFile) {
+void Controller::initScenegraph(const std::string &sceneFile)
+{
     ifstream inFile(sceneFile);
-    if (!inFile) {
+    if (!inFile)
+    {
         cerr << "Error: Could not open scene file: " << sceneFile << endl;
         exit(EXIT_FAILURE);
     }
@@ -29,12 +31,14 @@ void Controller::initScenegraph(const std::string& sceneFile) {
     sgraph::ScenegraphImporter importer;
     IScenegraph *scenegraph = importer.parse(inFile);
 
-    if (!scenegraph) {
+    if (!scenegraph)
+    {
         cerr << "Error: Scenegraph is NULL after parsing!" << endl;
         exit(EXIT_FAILURE);
     }
 
-    if (!scenegraph->getRoot()) {
+    if (!scenegraph->getRoot())
+    {
         cerr << "Error: Scenegraph root is NULL!" << endl;
         exit(EXIT_FAILURE);
     }
@@ -45,21 +49,23 @@ void Controller::initScenegraph(const std::string& sceneFile) {
 
 Controller::~Controller()
 {
-    
 }
 
 void Controller::run()
 {
-    sgraph::IScenegraph * scenegraph = model.getScenegraph();
-    map<string,util::PolygonMesh<VertexAttrib> > meshes = scenegraph->getMeshes();
-    view.init(this,meshes);
-    while (!view.shouldWindowClose()) {
+    sgraph::IScenegraph *scenegraph = model.getScenegraph();
+    map<string, util::PolygonMesh<VertexAttrib>> meshes = scenegraph->getMeshes();
+    view.init(this, meshes);
+    while (!view.shouldWindowClose())
+    {
         view.display(scenegraph);
         // view rotate
-        if (!mouseReleased) {
+        if (!mouseReleased)
+        {
             view.rotate();
         }
-        else {
+        else
+        {
             view.stopRotate();
         }
     }
@@ -69,28 +75,27 @@ void Controller::run()
 
 void Controller::onMouse(int button, int action, int mods)
 {
-    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+    {
         cout << "left mouse pressed" << endl;
         mouseReleased = false;
     }
-    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
+    {
         cout << "left mouse released" << endl;
         mouseReleased = true;
     }
 }
 
-void Controller::onkey(int key, int scancode, int action, int mods) {
-    if (action==GLFW_PRESS) {
-        if (key==GLFW_KEY_R) {
-            cout << "r pressed" << endl;
-            view.resetRotation();
-        }
-    }
+void Controller::onkey(int key, int scancode, int action, int mods)
+{
+   cout << (char)key << " pressed" << endl;
+
 }
 
-void Controller::reshape(int width, int height) 
+void Controller::reshape(int width, int height)
 {
-    cout <<"Window reshaped to width=" << width << " and height=" << height << endl;
+    cout << "Window reshaped to width=" << width << " and height=" << height << endl;
     glViewport(0, 0, width, height);
 }
 
@@ -99,7 +104,7 @@ void Controller::dispose()
     view.closeWindow();
 }
 
-void Controller::error_callback(int error, const char* description)
+void Controller::error_callback(int error, const char *description)
 {
     fprintf(stderr, "Error: %s\n", description);
 }

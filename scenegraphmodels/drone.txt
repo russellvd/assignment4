@@ -47,6 +47,11 @@ end-material
 group root root
 assign-root root
 
+# TRANSFORMATION NODE FOR ENTIRE DRONE
+translate translate-entire-drone translate-entire-drone 0 0 0
+
+# ROTATION NODE FOR ENTIRE DRONE (for the roll)
+
 # Drone Middle Body 
 scale scale-middle-drone scale-middle-drone 10 50 30 
 leaf drone drone instanceof box 
@@ -152,89 +157,89 @@ add-child translate-right-fan-base root
 
 # Drone Left Propeller-1
 rotate rotate-lp1 rotate-lp1 -35 0 1 0  
-translate translate-lp1 translate-lp1 -60 10 30
+translate translate-lp1 translate-lp1 -53 8 0
 scale scale-lp1 scale-lp1 20 3 3 
 leaf lp1 lp1 instanceof cylinder
 assign-material lp1 mat-red
 add-child lp1 scale-lp1
-add-child scale-lp1 translate-lp1
-add-child translate-lp1 rotate-lp1
-add-child rotate-lp1 root
+add-child scale-lp1 rotate-lp1
+add-child rotate-lp1 translate-lp1
+add-child translate-lp1 root
 
 # Drone Left Propeller-2
-rotate rotate-lp2 rotate-lp2 325 0 1 0  
-translate translate-lp2 translate-lp2 -25 10 30
+rotate rotate-lp2 rotate-lp2 60 0 1 0  
+translate translate-lp2 translate-lp2 -53 8 0
 scale scale-lp2 scale-lp2 20 3 3 
 leaf lp2 lp2 instanceof cylinder
 assign-material lp2 mat-red
 add-child lp2 scale-lp2
-add-child scale-lp2 translate-lp2
-add-child translate-lp2 rotate-lp2
-add-child rotate-lp2 root
+add-child scale-lp2 rotate-lp2
+add-child rotate-lp2 translate-lp2
+add-child translate-lp2 root
 
 # Drone Left Propeller-3
-rotate rotate-lp3 rotate-lp3 60 0 1 0  
-translate translate-lp3 translate-lp3 -9 10 -47
+rotate rotate-lp3 rotate-lp3 0 0 1 0  
+translate translate-lp3 translate-lp3 -53 10 0
 scale scale-lp3 scale-lp3 20 3 3 
 leaf lp3 lp3 instanceof cylinder
 assign-material lp3 mat-blue
 add-child lp3 scale-lp3
-add-child scale-lp3 translate-lp3
-add-child translate-lp3 rotate-lp3
-add-child rotate-lp3 root
+add-child scale-lp3 rotate-lp3
+add-child rotate-lp3 translate-lp3
+add-child translate-lp3 root
 
 # Drone Left Propeller-4
-rotate rotate-lp4 rotate-lp4 60 0 1 0  
-translate translate-lp4 translate-lp4 -39 10 -47
+rotate rotate-lp4 rotate-lp4 -60 0 1 0  
+translate translate-lp4 translate-lp4 -53 10 0
 scale scale-lp4 scale-lp4 20 3 3 
 leaf lp4 lp4 instanceof cylinder
 assign-material lp4 mat-blue
 add-child lp4 scale-lp4
-add-child scale-lp4 translate-lp4
-add-child translate-lp4 rotate-lp4
-add-child rotate-lp4 root
+add-child scale-lp4 rotate-lp4
+add-child rotate-lp4 translate-lp4
+add-child translate-lp4 root
 
 # Drone Right Propeller-1
 rotate rotate-rp1 rotate-rp1 -35 0 1 0  
-translate translate-rp1 translate-rp1 60 10 -30
+translate translate-rp1 translate-rp1 53 8 0
 scale scale-rp1 scale-rp1 20 3 3 
 leaf rp1 rp1 instanceof cylinder
 assign-material rp1 mat-red
 add-child rp1 scale-rp1
-add-child scale-rp1 translate-rp1
-add-child translate-rp1 rotate-rp1
-add-child rotate-rp1 root
+add-child scale-rp1 rotate-rp1
+add-child rotate-rp1 translate-rp1
+add-child translate-rp1 root
 
 
 # Drone Right Propeller-2
-rotate rotate-rp2 rotate-rp2 325 0 1 0  
-translate translate-rp2 translate-rp2 25 10 -30
+rotate rotate-rp2 rotate-rp2 60 0 1 0  
+translate translate-rp2 translate-rp2 53 8 0
 scale scale-rp2 scale-rp2 20 3 3 
 leaf rp2 rp2 instanceof cylinder
 assign-material rp2 mat-red
 add-child rp2 scale-rp2
-add-child scale-rp2 translate-rp2
-add-child translate-rp2 rotate-rp2
-add-child rotate-rp2 root
+add-child scale-rp2 rotate-rp2
+add-child rotate-rp2 translate-rp2
+add-child translate-rp2 root
 
 # Drone Right Propeller-3
-rotate rotate-rp3 rotate-rp3 60 0 1 0  
-translate translate-rp3 translate-rp3 9 10 47
+rotate rotate-rp3 rotate-rp3 0 0 1 0  
+translate translate-rp3 translate-rp3 53 10 0
 scale scale-rp3 scale-rp3 20 3 3 
 leaf rp3 rp3 instanceof cylinder
 assign-material rp3 mat-blue
 add-child rp3 scale-rp3
-add-child scale-rp3 translate-rp3
-add-child translate-rp3 rotate-rp3
-add-child rotate-rp3 root
+add-child scale-rp3 rotate-rp3
+add-child rotate-rp3 translate-rp3
+add-child translate-rp3 root
 
 # Drone Right Propeller-4
-rotate rotate-rp4 rotate-rp4 60 0 1 0  
-translate translate-rp4 translate-rp4 39 10 47
+rotate rotate-rp4 rotate-rp4 -60 0 1 0  
+translate translate-rp4 translate-rp4 53 10 0
 scale scale-rp4 scale-rp4 20 3 3 
 leaf rp4 rp4 instanceof cylinder
 assign-material rp4 mat-blue
 add-child rp4 scale-rp4
-add-child scale-rp4 translate-rp4
-add-child translate-rp4 rotate-rp4
-add-child rotate-rp4 root
+add-child scale-rp4 rotate-rp4
+add-child rotate-rp4 translate-rp4
+add-child translate-rp4 root

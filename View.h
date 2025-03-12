@@ -24,6 +24,7 @@ class View
 public:
     void onMousePress(int button, int action, int mods);
     void onMouseMove(double posX, double posY);
+    void onkey(int key, int scancode, int action, int mods);
     void resetRotation();
     View();
     ~View();
@@ -33,6 +34,11 @@ public:
     void rotate();
     void stopRotate();
     void closeWindow();
+    void animatePropellerRotation(sgraph::IScenegraph *scenegraph, const std::string &nodeName, float deltaAngle);
+    void animateDronePropellers(sgraph::IScenegraph *scenegraph, float deltaAngle);
+    void animateDroneRoll(sgraph::IScenegraph *scenegraph, const std::string &nodeName, float deltaAngle);
+    void animateDroneMovement(sgraph::IScenegraph *scenegraph, const std::string &nodeName, float distance, int axis);
+    void animateTurns(sgraph::IScenegraph *scenegraph, const std::string &nodeName, const std::string &direction);
 
 private: 
 
@@ -46,11 +52,23 @@ private:
     sgraph::SGNodeVisitor *renderer_text;
     int frames;
     double time;
+    double deltaTime;
     bool isRotating = false;
     int counter;
     glm::vec2 lastPos;
     bool isDragging= false;
     glm::mat4 rotationMatrix = glm::mat4(1.0f);
+    float droneSpeed;
+    float droneMovementSpeed;
+
+    bool isRolling = false;
+    bool isMovingForward = false;
+    bool isMovingBackward = false;
+    bool turnLeft = false;
+    bool turnRight = false;
+    bool turnUp = false;
+    bool turnDown = false;
+
 };
 
 #endif
