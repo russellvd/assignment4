@@ -39,6 +39,7 @@ public:
     void animateDroneRoll(sgraph::IScenegraph *scenegraph, const std::string &nodeName, float deltaAngle);
     void animateDroneMovement(sgraph::IScenegraph *scenegraph, const std::string &nodeName, float distance, int axis);
     void animateTurns(sgraph::IScenegraph *scenegraph, const std::string &nodeName, const std::string &direction);
+    void resetDrone(sgraph::IScenegraph *scenegraph);
 
 private: 
 
@@ -68,6 +69,7 @@ private:
     bool turnRight = false;
     bool turnUp = false;
     bool turnDown = false;
+    bool reset = false;
 
 };
 

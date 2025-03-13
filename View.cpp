@@ -114,34 +114,63 @@ void View::init(Callbacks *callbacks, map<string, util::PolygonMesh<VertexAttrib
     counter = 0;
     droneSpeed = .12f;
     droneMovementSpeed = 3.0f;
+    
 }
 
 void View::animateDroneMovement(sgraph::IScenegraph *scenegraph, const std::string &nodeName, float distance, int axis)
 {
     sgraph::SGNode *translateBoxNode = scenegraph->getRoot()->getNode(nodeName);
     sgraph::TranslateTransform *translateNode = dynamic_cast<sgraph::TranslateTransform*>(translateBoxNode);
+    sgraph::RotateTransform *rotateNode = dynamic_cast<sgraph::RotateTransform*>(scenegraph->getRoot()->getNode("rotate-drone")); 
+    Direction currentDirection = rotateNode->getCurrentDirection();
     glm::vec3 newTranslate = translateNode->getTranslate();
-    float newDistance = distance * droneSpeed; 
-    newTranslate[axis] += newDistance; 
-    translateNode->updateTranslation(newTranslate);
+    float newDistance = distance * droneSpeed;
 
+    // adjust translation based on the current facing direction
+    switch (currentDirection) {
+        case Direction::FORWARD:
+            newTranslate.z += newDistance;
+            break;
+        case Direction::BEHIND:
+            newTranslate.z -= newDistance;
+            break;
+        case Direction::LEFT:
+            newTranslate.x += newDistance;
+            break;
+        case Direction::RIGHT:
+            newTranslate.x -= newDistance;
+            break;
+        case Direction::UP:
+            newTranslate.y += newDistance;
+            break;
+        case Direction::DOWN:
+            newTranslate.y -= newDistance;
+            break;
+    }
+    translateNode->updateTranslation(newTranslate);
 }
+
 
 void View::animateTurns(sgraph::IScenegraph *scenegraph, const std::string &nodeName, const std::string &direction)
 {
     sgraph::SGNode *rotateBoxNode = scenegraph->getRoot()->getNode(nodeName);
     sgraph::RotateTransform *rotateNode = dynamic_cast<sgraph::RotateTransform*>(rotateBoxNode);
     if (direction == "up") {
+        rotateNode->turnUp(90.0f);
+        turnUp = false;
     } else if (direction == "down") {
-
+        rotateNode->turnDown(90.0f);
+        turnDown = false;
     } else if (direction == "left") {
-
+        rotateNode->turnLeft(90.0f);
+        turnLeft = false;
     } else if (direction == "right") {
-
+        rotateNode->turnRight(90.0f);
+        turnRight = false;
     } else {
         std::cerr << "Invalid direction: " << direction << std::endl;
     }
-    
+    rotateNode->printDirection();
 }
 
 void View::animateDroneRoll(sgraph::IScenegraph *scenegraph, const std::string &nodeName, float deltaAngle)
@@ -162,9 +191,22 @@ void View::animatePropellerRotation(sgraph::IScenegraph *scenegraph, const std::
     sgraph::SGNode *rotateBoxNode = scenegraph->getRoot()->getNode(nodeName);
     sgraph::RotateTransform *rotateNode = dynamic_cast<sgraph::RotateTransform *>(rotateBoxNode);
     float newAngle = rotateNode->getAngleInRadians() + deltaAngle;
-    rotateNode->updateRotation(newAngle); // Update the rotation
+    rotateNode->updateRotation(newAngle); 
 }
 
+void View::resetDrone(sgraph::IScenegraph *scenegraph)
+{
+    sgraph::SGNode *translateBoxNode = scenegraph->getRoot()->getNode("translate-drone");
+    sgraph::TranslateTransform *translateNode = dynamic_cast<sgraph::TranslateTransform*>(translateBoxNode);
+    glm::vec3 originalPosition = glm::vec3(0.0f, 0.0f, 0.0f); 
+    translateNode->updateTranslation(originalPosition);
+    sgraph::SGNode *rotateBoxNode = scenegraph->getRoot()->getNode("rotate-drone");
+    sgraph::RotateTransform *rotateNode = dynamic_cast<sgraph::RotateTransform*>(rotateBoxNode);
+    float originalRotationAngle = 0.0f;  
+    glm::vec3 originalRotationAxis = glm::vec3(0.0f, 1.0f, 0.0f); 
+    rotateNode->updateRotation(originalRotationAngle);
+    reset = false;
+}
 
 
 
@@ -231,25 +273,28 @@ void View::display(sgraph::IScenegraph *scenegraph)
 
     // Turning Left
     if (turnLeft) {
-        
+        animateTurns(scenegraph, "rotate-drone", "left");
     }
 
     // Turning Right
     if (turnRight) {
-        
+        animateTurns(scenegraph, "rotate-drone", "right");
     }
 
     // Turning Up
     if (turnUp) {
-        
+        animateTurns(scenegraph, "rotate-drone", "up");
     }
 
     // Turning Down
     if (turnDown) {
-        
+        animateTurns(scenegraph, "rotate-drone", "down");
     }
 
-
+    // Reset Drone
+    if (reset) {
+        resetDrone(scenegraph);
+    }
 
 
     // draw scene graph here
@@ -307,7 +352,7 @@ void View::onkey(int key, int scancode, int action, int mods)
             droneSpeed -= 0.04f; // decrease the speed
             droneMovementSpeed -= 1.0f; 
             break;
-        case GLFW_KEY_X:
+        case GLFW_KEY_J:
             isRolling = true;
             break;
         case GLFW_KEY_MINUS:
@@ -315,14 +360,24 @@ void View::onkey(int key, int scancode, int action, int mods)
             isMovingForward = false;
             break;
         case GLFW_KEY_LEFT:
+            cout << "LEFT pressed" << endl;
             turnLeft = true;
+            break;
         case GLFW_KEY_RIGHT:
+            cout << "RIGHT pressed" << endl;
             turnRight = true;
+            break;
         case GLFW_KEY_DOWN:
+            cout << "DOWN pressed" << endl;
             turnDown = true;
+            break;
         case GLFW_KEY_UP:
+            cout << "UP pressed" << endl;
             turnUp = true;
-        
+            break;
+        case GLFW_KEY_D:
+            reset = true;
+            break;
         default:
             cout << "Unhandled key press: " << key << endl;
             break;

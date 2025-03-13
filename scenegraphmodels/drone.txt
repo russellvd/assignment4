@@ -50,7 +50,6 @@ assign-root root
 # TRANSFORMATION NODE FOR ENTIRE DRONE
 translate translate-entire-drone translate-entire-drone 0 0 0
 
-# ROTATION NODE FOR ENTIRE DRONE (for the roll)
 
 # Drone Middle Body 
 scale scale-middle-drone scale-middle-drone 10 50 30 
