@@ -117,6 +117,7 @@ void View::init(Callbacks *callbacks, map<string, util::PolygonMesh<VertexAttrib
     
 }
 
+
 void View::animateDroneMovement(sgraph::IScenegraph *scenegraph, const std::string &nodeName, float distance, int axis)
 {
     sgraph::SGNode *translateBoxNode = scenegraph->getRoot()->getNode(nodeName);
@@ -148,6 +149,8 @@ void View::animateDroneMovement(sgraph::IScenegraph *scenegraph, const std::stri
             break;
     }
     translateNode->updateTranslation(newTranslate);
+        if(cameraMode==FP){
+        }
 }
 
 
@@ -209,8 +212,6 @@ void View::resetDrone(sgraph::IScenegraph *scenegraph)
 }
 
 
-
-
 // animate all the propellers (doing this to remove too much mess in the render function) 
 void View:: animateDronePropellers(sgraph::IScenegraph *scenegraph, float deltaAngle) 
 {
@@ -227,6 +228,7 @@ void View:: animateDronePropellers(sgraph::IScenegraph *scenegraph, float deltaA
     animatePropellerRotation(scenegraph, "rotate-rp4", deltaAngle);
 }
 
+
 void View::display(sgraph::IScenegraph *scenegraph)
 {
 
@@ -241,7 +243,33 @@ void View::display(sgraph::IScenegraph *scenegraph)
     float rotation_time = 25.0 * glfwGetTime();
 
     modelview.push(glm::mat4(1.0));
-    glm::mat4 viewMatrix = glm::lookAt(glm::vec3(200.0f, 250.0f, 250.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::mat4 viewMatrix;
+    switch (cameraMode){
+        case GLOBAL:
+            //Global view of the entire scene
+            viewMatrix = glm::lookAt(glm::vec3(200.0f, 250.0f, 250.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+            break;
+        case CHOPPER:{
+            //Chopper cam circling around the scene
+            float time=glfwGetTime();
+            float radius=300.0f;
+            float camX=radius *cos(time*0.5f);
+            float camZ = radius * sin(time*0.5f);
+            viewMatrix = glm::lookAt(glm::vec3(camX, 250.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+            break;
+        }
+        case FP:{
+            sgraph::SGNode *droneNode=scenegraph->getRoot()->getNode("translate-drone");
+            sgraph::TranslateTransform *droneTransform = dynamic_cast<sgraph::TranslateTransform*>(droneNode);
+            glm::vec3 dronePos=droneTransform->getTranslate();
+            sgraph::SGNode *droneRotNode =scenegraph->getRoot()->getNode("rotate-drone");
+            sgraph::RotateTransform *droneRot=dynamic_cast<sgraph::RotateTransform*>(droneRotNode);
+
+            glm::vec3 cameraPosition=dronePos + glm::vec3(0.0f, 5.0f, 0.0f);
+            // viewMatrix = glm::lookAt(cameraPosition, target, glm::vec3(0.0f, 1.0f, 0.0f));
+            break;
+        }
+    }
     modelview.top() = viewMatrix * rotationMatrix;
 
     // ROTATION
@@ -322,6 +350,9 @@ void View::display(sgraph::IScenegraph *scenegraph)
         time = currenttime;
     }
 }
+
+
+
 void View::resetRotation()
 {
     rotationMatrix = glm::mat4(1.0f);
@@ -377,6 +408,18 @@ void View::onkey(int key, int scancode, int action, int mods)
             break;
         case GLFW_KEY_D:
             reset = true;
+            break;
+        case GLFW_KEY_1:
+            cout << "Switching to Global Camera" << endl;
+            cameraMode =GLOBAL;
+            break;
+        case GLFW_KEY_2:
+            cout << "Switching to Chopper Camera" << endl;
+            cameraMode =CHOPPER;
+            break;
+        case GLFW_KEY_3:
+            cout << "Switching to First-Person Camera" << endl;
+            cameraMode =FP;
             break;
         default:
             cout << "Unhandled key press: " << key << endl;

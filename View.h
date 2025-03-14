@@ -61,6 +61,11 @@ private:
     glm::mat4 rotationMatrix = glm::mat4(1.0f);
     float droneSpeed;
     float droneMovementSpeed;
+    enum CameraMode{GLOBAL,CHOPPER,FP};
+    CameraMode cameraMode =GLOBAL;
+    float chopperAngle = 0.0f;
+    float chopperRadius = 400.0f;
+    
 
     bool isRolling = false;
     bool isMovingForward = false;
